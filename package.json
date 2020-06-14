@@ -2,9 +2,10 @@
   "name": "awsome-chat",
   "version": "1.0.0",
   "description": "Awesome Chat https://github.com/tuankhoi2206/chat-nodejs",
-  "main": "server.js",
+  "main": "root-source/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel-node server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/tuankhoi2206/chat-nodejs/issues"
   },
-  "homepage": "https://github.com/tuankhoi2206/chat-nodejs#readme"
+  "homepage": "https://github.com/tuankhoi2206/chat-nodejs#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  }
 }
