@@ -2,13 +2,25 @@ import express from "express";
 import connectDB from "./config/connect.db";
 import configViewEngine from "./config/viewEngine";
 import initRouters from "./routers/web";
+import bodyParser from "body-parser";
+import connectFlash from "connect-flash";
+import configSession from "./config/session";
 
 const hostname = "localhost";
 const port = 8017;
 let app = express();
 connectDB();
+
+// config Session
+configSession(app);
+
 configViewEngine(app);
-//init routers
+
+// Enable post data for request
+app.use(bodyParser.urlencoded({extend: true}));
+// Enable Flash
+app.use(connectFlash());
+// Init routers
 initRouters(app);
 
 app.listen(port, hostname, function () {
