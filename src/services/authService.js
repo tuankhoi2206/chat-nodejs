@@ -1,11 +1,13 @@
 import UserModel from "./../models/userModel";
 import {v4 as uuidv4} from "uuid";
 import {transErrors, transSuccess} from "../../lang/vi";
+import bcrypt from "bcrypt";
 
-
-// let saltRounds = 7;
+let saltRounds = 7;
 
 let register = (email, gender, password) => {
+
+    let salt = bcrypt.genSaltSync(saltRounds);
 
     return new Promise(async (resolve, reject) => {
         let userByEmail = await UserModel.findByEmail(email);
@@ -26,7 +28,7 @@ let register = (email, gender, password) => {
             password: password,
             local: {
                 email: email,
-                password: password,
+                password: bcrypt.hashSync(password, salt),
                 verifyToken: uuidv4()
             }
         }
