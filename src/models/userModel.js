@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 let Schema = mongoose.Schema;
 let UserSchema = new Schema({
@@ -33,6 +34,10 @@ let UserSchema = new Schema({
     deleteAt: {type: Number, default: null}
 });
 
+/**
+ * scope Schema
+ * @type {{verifyToken(*=): *, removeById(*=): *, findUserById(*=): *, findByEmail(*=): *, findByToken(*=): *, createNew(*=): *}}
+ */
 UserSchema.statics = {
     createNew(item) {
         return this.create(item);
@@ -51,8 +56,20 @@ UserSchema.statics = {
     verifyToken(token) {
         return this.findOneAndUpdate({"local.verifyToken": token},
             {"local.isActive": true, "local.verifyToken": null}).exec();
+    },
+    findUserById(id) {
+        return this.findById(id).exec();
     }
 };
 
+/**
+ * after to find record, it will check data
+ * @type {{comparedPassword(*=): *}}
+ */
+UserSchema.methods = {
+    comparedPassword(password) {
+        return bcrypt.compare(password, this.local.password);
+    }
+};
 
 module.exports = mongoose.model("user", UserSchema);
