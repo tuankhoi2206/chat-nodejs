@@ -11,7 +11,9 @@ export const transErrors = {
     account_not_active: "User not activated",
     token_undefined: "Token không tồn tại",
     login_failed: "Tài khoản hoặc mật khẩu không đúng",
-    server_error: "Lỗi server"
+    server_error: "Lỗi server",
+    avatar_type: "Image không hợp lệ",
+    avatar_size: "Image upload vượt quá giới hạn cho phép( 1MB).",
 }
 
 export const transSuccess = {
@@ -22,7 +24,8 @@ export const transSuccess = {
     loginSuccess: (username) => {
         return `Tài khoản ${username} đăng nhập thành công.`;
     },
-    logout_sucess: "Đăng xuất tài khoản thành công."
+    logout_sucess: "Đăng xuất tài khoản thành công.",
+    avatar_updated: 'Cập nhật ảnh đại diện thành công'
 }
 
 export const transMail = {
