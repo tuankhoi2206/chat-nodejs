@@ -1,5 +1,5 @@
 import session from "express-session";
-import connectMongo  from "connect-mongo";
+import connectMongo from "connect-mongo";
 import mongoose from "mongoose";
 import bluebird from "bluebird";
 
@@ -23,7 +23,7 @@ let sessionStore = new MongoStore({
  * Config session for app
  * @param app
  */
-let configSession = (app) => {
+let config = (app) => {
     app.use(session({
         key: "express.sid",
         secret: "mySecret",
@@ -36,4 +36,7 @@ let configSession = (app) => {
     }));
 };
 
-module.exports = configSession;
+module.exports = {
+    configSession: config,
+    sessionStore: sessionStore
+};

@@ -21,7 +21,6 @@ let postRegister = async (req, res) => {
         errors.forEach(error => {
             errorMsg.push(error.msg);
         });
-        console.log(errorMsg);
         req.flash("errors", errorMsg);
         return res.redirect("/login-register");
     }
@@ -64,8 +63,6 @@ let getLogout = (req, res) => {
 
 let checkLoggedIn = (req, res, next) => {
 
-    console.log('checkLoggedIn ' + !req.isAuthenticated);
-
     if(!req.isAuthenticated()){
         return res.redirect("/login-register");
     }
@@ -73,9 +70,6 @@ let checkLoggedIn = (req, res, next) => {
 }
 
 let checkLoggedOut = (req, res, next) => {
-
-    console.log('checkLoggedOut ' + !req.isAuthenticated);
-
     if(req.isAuthenticated()){
         return res.redirect("/");
     }

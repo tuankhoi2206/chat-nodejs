@@ -11,16 +11,10 @@ let findUserContact = (currentUserId, keyword) => {
             deprecatedUserIds.push(contact.userId);
             deprecatedUserIds.push(contact.contactId);
         });
-        console.log(deprecatedUserIds);
 
         deprecatedUserIds = _.uniqBy(deprecatedUserIds);
-        console.log(deprecatedUserIds);
 
         let users = await UserModel.findAllForContact(deprecatedUserIds, keyword);
-        console.log("findUserContact");
-
-        users = _.uniqBy(users);
-        console.log(users);
         resolve(users);
     });
 }
@@ -37,7 +31,6 @@ let addNew = (currentUserId, contactId) => {
             contactId: contactId
         }
         let newContact = await ContactModel.createNew(newContactItem);
-        console.log(newContact);
         resolve(newContactItem);
     });
 }

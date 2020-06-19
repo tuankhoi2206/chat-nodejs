@@ -41,7 +41,6 @@ let register = (email, gender, password, protocol, host) => {
         }).catch(async (error) => {
             //remove user
             await UserModel.removeById(user._id);
-            console.log(error);
             resolve(transMail.send_failed);
         });
         resolve(transSuccess.userCreated(user.local.email));
