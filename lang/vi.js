@@ -3,6 +3,7 @@ export const transValidation = {
     gender_incorrect: 'Giới tính có giá trị Male hoặc Female',
     password_incorrect: 'Password không hợp lệ.',
     password_confirmation_incorrect: 'Password Confirmation không hợp lệ.',
+    keyword_find_user: "Chỉ cho phép ký tự chữ cái và số",
 }
 
 export const transErrors = {

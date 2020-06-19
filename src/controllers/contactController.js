@@ -26,6 +26,41 @@ let findUsersContact = async (req, res) => {
     }
 }
 
+let addNew = async (req, res) => {
+
+    let errorArr = [];
+    try {
+        let currentUserId = req.user._id;
+        let contactId = req.body.uid;
+        let newContact = await contact.addNew(currentUserId, contactId);
+
+        console.log('addNew' + req.user._id);
+
+        return res.status(200).send({
+            success: !!newContact
+        });
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+}
+
+let removeRequestContact = async (req, res) => {
+
+    try {
+        let currentUserId = req.user._id;
+        let contactId = req.body.uid;
+        let removeReqContact = await contact.removeRequestContact(currentUserId, contactId);
+
+        console.log('removeReqContact ' + removeReqContact);
+
+        return res.status(200).send({success: !!removeReqContact});
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+}
+
 module.exports = {
-    findUsersContact: findUsersContact
+    findUsersContact: findUsersContact,
+    addNew: addNew,
+    removeRequestContact: removeRequestContact
 };
