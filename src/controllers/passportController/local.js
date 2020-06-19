@@ -37,7 +37,6 @@ let initPassportLocal = () => {
             return done(null, user, req.flash("success", transSuccess.loginSuccess(user.username)));
 
         } catch (error) {
-            console.log('try error');
             return done(null, false, req.flash("errors", transErrors.server_error));
         }
     }));
@@ -49,10 +48,8 @@ let initPassportLocal = () => {
 
     passport.deserializeUser((id, done) => {
         UserModel.findUserById(id).then(user => {
-            console.log('sucess UserModel.findUserById ' + id);
             return done(null, user);
         }).catch(error => {
-            console.log('error UserModel.findUserById ' + id);
             return done(error, null);
         });
     });

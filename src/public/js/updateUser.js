@@ -97,12 +97,11 @@ $(document).ready(function () {
             }
         })
     });
-    console.log(userInfor);
+
     $('#input-btn-cancel-update-user').bind('click', function () {
         userInfor = {};
         userAvatar = null;
         $('#user-modal-avatar').attr('src', originAvatarSrc);
         $('#input-change-avatar').val(null);
-
     });
 });
