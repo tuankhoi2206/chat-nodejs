@@ -3,23 +3,17 @@ import UserModel from "./../../models/userModel";
 /**
  * @param io from socket.io lib
  */
-let addNewContact = (io) => {
+let removeRequestContact = (io) => {
 
     let clients = {};
     io.on("connection", (socket) => {
 
-        socket.on("add-new-contact", async (data) => {
+        socket.on('remove-request-contact', async (data) => {
             /**
              * to receive contactId which we want to send notification.
              */
-            console.log('add-new-contact');
+            console.log('remove-request-contact');
             console.log(data.contactId);
-
-            /**
-             * Buggggggggggggggggggggggggggggggg
-             */
-            let user = await UserModel.findUserId(data.contactId);
-            let currentUserId = user._id;
 
             console.log('currentUserId' + currentUserId);
 
@@ -31,13 +25,11 @@ let addNewContact = (io) => {
 
             let currentUser = {
                 id: user._id,
-                username: user.username,
-                avatar: user.avatar,
             };
 
             if (clients[data.contactId]) {
                 clients[data.contactId].forEach(socketId => {
-                    io.sockets.connected[socketId].emit('response-add-new-contact', currentUser);
+                    io.sockets.connected[socketId].emit('response-remove-request-contact', currentUser);
                 });
             }
         });
@@ -54,4 +46,4 @@ let addNewContact = (io) => {
     });
 
 }
-module.exports = addNewContact;
+module.exports = removeRequestContact;
