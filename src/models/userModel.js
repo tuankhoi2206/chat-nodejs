@@ -58,7 +58,17 @@ UserSchema.statics = {
             {"local.isActive": true, "local.verifyToken": null}).exec();
     },
     findUserById(id) {
-        return this.findById(id).exec();
+        // return this.findById(id).clean().exec();
+        return this.findOne({_id: id}).exec();
+    },
+    findUserId(id) {
+        return this.findOne({'_id': id},
+            {_id: 1, username: 1, address: 1, avatar: 1, local: 1, facebook: 1, phone: 1}).lean().exec();
+    },
+    findUserId(id) {
+        return this.findOne({
+            '_id': id
+        }, {_id: 1, username: 1, address: 1, avatar: 1, local: 1}).lean().exec();
     },
     updateUser(id, item) {
         return this.findByIdAndUpdate(id, item).exec();
