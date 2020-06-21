@@ -16,7 +16,6 @@ function addContact() {
 }
 
 socket.on('response-add-new-contact', function (user) {
-
     console.log('user');
     console.log(user);
 

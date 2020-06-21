@@ -29,6 +29,7 @@ let removeRequestContact = (io) => {
         });
 
         socket.on('disconnect', () => {
+            console.log('disconnect');
 
             if (clients[currentUserId]) {
                 clients[currentUserId] = clients[currentUserId].filter((socketId) => socketId !== socket.id);
