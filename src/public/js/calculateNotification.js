@@ -7,7 +7,7 @@ function increaseNumberNotification(className) {
         $(`.${className}`).css('display','block ').html(currentValue);
     }
 }
-function deIncreaseNumberNotification(className) {
+function decreaseNumberNotification(className) {
     let currentValue = +$(`.${className}`).text();
     currentValue -= 1;
     if (currentValue === 0) {

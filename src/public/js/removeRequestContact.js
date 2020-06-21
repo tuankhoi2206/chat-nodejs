@@ -10,20 +10,24 @@ function removeRequestContact() {
                 if (data.success) {
                     $('#find-user').find(`div.user-add-new-contact[data-uid=${tagGetId}]`).css('display', 'inline-block');
                     $('#find-user').find(`div.user-remove-request-contact[data-uid=${tagGetId}]`).hide();
-                    deIncreaseNumberNotifContact('count-request-contact-sent');
-                    socket.emit('remove-request-contact', {
-                        contactId: tagGetId
-                    })
+                    decreaseNumberNotifContact('count-request-contact-sent');
+                    socket.emit('remove-request-contact', {contactId: tagGetId});
                 }
             },
-        })
+        });
     });
 }
 
 socket.on('response-remove-request-contact', function (user) {
-    $('.noti_counter').find(`span[data-uid="${user.id}]`).remove();
+
+    console.log('Bugggggggggg');
+    console.log(user);
+    /**
+     * Bug
+     */
+    $('.noti_counter').find(`span[data-uid=${user.id}]`).remove();
     // Xóa ở modal tab yêu cầu kết bạn
-    deIncreaseNumberNotifContact('count-request-contact-received');
+    decreaseNumberNotifContact('count-request-contact-received');
     decreaseNumberNotification('noti_contact_counter');
     decreaseNumberNotification('noti_counter');
 });

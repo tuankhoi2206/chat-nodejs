@@ -1,6 +1,8 @@
 /**
  * @param io from socket.io lib
  */
+import {pushSocketIdToArray, emitNotifyToArray, removeSocketIdFromArray} from "./../../helpers/socketHelper";
+
 let addNewContact = (io) => {
 
     let clients = {};
@@ -15,12 +17,7 @@ let addNewContact = (io) => {
         console.log('UserName: ' + socket.request.user.username);
         console.log('***************************');
 
-        if (clients[currentUserId]) {
-            clients[currentUserId].push(socket.id);
-        } else {
-            clients[currentUserId] = [socket.id];
-        }
-
+        clients = pushSocketIdToArray(clients, currentUserId, socket.id);
         socket.on('add-new-contact', async (data) => {
 
             /**
@@ -31,28 +28,14 @@ let addNewContact = (io) => {
                 username: socket.request.user.username,
                 avatar: socket.request.user.avatar,
             };
-            console.log('currentUser');
-            console.log(currentUser);
-
             /**
              * send notification to socketId of contactId which we want to send
              */
-            if (clients[data.contactId]) {
-                clients[data.contactId].forEach(socketId => {
-                    console.log('socketId' + socketId);
-                    io.sockets.connected[socketId].emit('response-add-new-contact', currentUser);
-                });
-            }
+            emitNotifyToArray(clients, data.contactId, io, 'response-add-new-contact', currentUser);
         });
 
         socket.on('disconnect', () => {
-
-            if (clients[currentUserId]) {
-                clients[currentUserId] = clients[currentUserId].filter((socketId) => socketId !== socket.id);
-                if (!clients[currentUserId].length) {
-                    delete clients[currentUserId];
-                }
-            }
+            removeSocketIdFromArray(clients, currentUserId, socket.id);
         });
     });
 }

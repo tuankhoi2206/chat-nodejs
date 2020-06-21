@@ -1,3 +1,5 @@
+import {emitNotifyToArray, pushSocketIdToArray, removeSocketIdFromArray} from "../../helpers/socketHelper";
+
 /**
  * @param io from socket.io lib
  */
@@ -7,37 +9,23 @@ let removeRequestContact = (io) => {
     io.on("connection", (socket) => {
 
         let currentUserId = socket.request.user._id;
+        clients = pushSocketIdToArray(clients, currentUserId, socket.id);
         socket.on('remove-request-contact', async (data) => {
-
-            if (clients[currentUserId]) {
-                clients[currentUserId].push(socket.id);
-            } else {
-                clients[currentUserId] = [socket.id];
-            }
 
             let currentUser = {
                 id: socket.request.user._id,
                 username: socket.request.user.username,
                 avatar: socket.request.user.avatar,
             };
-
-            if (clients[data.contactId]) {
-                clients[data.contactId].forEach(socketId => {
-                    io.sockets.connected[socketId].emit('response-remove-request-contact', currentUser);
-                });
-            }
+            emitNotifyToArray(clients, data.contactId, io, 'response-remove-request-contact', currentUser);
         });
 
         socket.on('disconnect', () => {
             console.log('disconnect');
-
-            if (clients[currentUserId]) {
-                clients[currentUserId] = clients[currentUserId].filter((socketId) => socketId !== socket.id);
-                if (!clients[currentUserId].length) {
-                    delete clients[currentUserId];
-                }
-            }
+            clients = removeSocketIdFromArray(clients, currentUserId, socket.id);
         });
+
+        console.log('Disconnect clients ' + clients);
     });
 }
 module.exports = removeRequestContact;
