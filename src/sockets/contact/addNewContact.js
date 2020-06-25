@@ -1,7 +1,7 @@
 /**
  * @param io from socket.io lib
  */
-import {pushSocketIdToArray, emitNotifyToArray, removeSocketIdFromArray} from "./../../helpers/socketHelper";
+import {pushSocketIdToArray, emitNotifyToArray, removeSocketIdFromArray} from "../../helpers/socketHelper";
 
 let addNewContact = (io) => {
 
