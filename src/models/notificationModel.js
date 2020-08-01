@@ -34,6 +34,14 @@ NotificationSchema.statics = {
             "createdAt": 1
         }).limit(10).lean().exec();
 
+    },
+    countNotifUnread(userId) {
+        return this.count({
+            $and: [
+                {'receiverId': userId},
+                {'isRead': false},
+            ]
+        }).exec();
     }
 };
 
@@ -50,12 +58,12 @@ const NOTIFICATION_CONTENT = {
                 return `<span class="notif-readed-false" data-uid="${userId}">
                        <img class="avatar-small" src="images/users/${userAvatar}" alt="">
                        <strong>${username}</strong> đã gửi cho bạn một lời mời kết bạn!
-                    </span><br><br><br>`;
+                    </span>`;
             }
             return `<span data-uid="${userId}">
                        <img class="avatar-small" src="images/users/${userAvatar}" alt="">
                        <strong>${username}</strong> đã gửi cho bạn một lời mời kết bạn!
-                    </span><br><br><br>`;
+                    </span>`;
 
         }
         return "No matching with any notification type.";

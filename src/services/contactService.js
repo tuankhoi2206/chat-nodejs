@@ -18,7 +18,7 @@ let findUserContact = (currentUserId, keyword) => {
         let users = await UserModel.findAllForContact(deprecatedUserIds, keyword);
         resolve(users);
     });
-}
+};
 
 let addNew = (currentUserId, contactId) => {
     return new Promise(async (resolve, reject) => {
@@ -43,7 +43,7 @@ let addNew = (currentUserId, contactId) => {
 
         resolve(newContact);
     });
-}
+};
 
 let removeRequestContact = (currentUserId, contactId) => {
     return new Promise(async (resolve, reject) => {
@@ -54,10 +54,28 @@ let removeRequestContact = (currentUserId, contactId) => {
         await NotificationModel.model.removeRequestContactNotification(currentUserId, contactId, NotificationModel.types.ADD_CONTACT);
         resolve(true);
     });
-}
+};
+
+const LIMIT_NUMBER_TAKEN = 10;
+
+let getContactsReceived = (currentUserId) => {
+
+    return new Promise(async (resolve, reject) => {
+        try {
+            let contacts = await ContactModel.getContactsReceived(currentUserId, LIMIT_NUMBER_TAKEN);
+            let users = contacts.map(async (contact) => {
+                return await UserModel.findUserById(contact.userId);
+            });
+            resolve(await Promise.all(users));
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
 
 module.exports = {
     findUserContact: findUserContact,
     addNew: addNew,
-    removeRequestContact: removeRequestContact
+    removeRequestContact: removeRequestContact,
+    getContactsReceived: getContactsReceived
 }

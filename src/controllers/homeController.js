@@ -1,24 +1,21 @@
-import {notification} from "../services";
+import {message, notification} from "../services";
 
 let getHome = async (req, res) => {
 
-    try {
 
-        console.log('getHome-notifications');
-        let notifications = await notification.getNotifications(req.user._id);
-        console.log(notifications);
+    let notifications = await notification.getNotifications(req.user._id) || [];
+    let countNotifUnread = await notification.countNotifUnread(req.user._id) || 0;
 
-        console.log('Send data');
-        return res.render("main/home/master", {
-            errors: req.flash("errors"),
-            success: req.flash("success"),
-            user: req.user,
-            notifications: notifications || [],
-        });
-    } catch (error) {
-        console.log(error);
-    }
+    let getAllConversationItems = await message.getAllConversationItems(req.user._id);
 
+
+    return res.render("main/home/master", {
+        errors: req.flash("errors"),
+        success: req.flash("success"),
+        user: req.user,
+        notifications: notifications,
+        countNotifUnread: countNotifUnread
+    });
 
 };
 
